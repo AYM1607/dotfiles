@@ -1,13 +1,40 @@
-" Mappings
+" Set tab size to 4
+set tabstop=4
+set shiftwidth=4
+
+" I dont know what it is but keep it
+set laststatus=2
+set noshowmode
+
+" Avoid compatibility mode aka dont act like vi
+set nocompatible
+
+" Allow Hybrid numbers, show both current absolute numbers and relative numbers
+set number relativenumber
+
+" Movements between tabs
 nnoremap tn :tabn<CR>
 nnoremap tp :tabp<CR>
 
-" Plugins "
-call plug#begin('~/.vim/plugged')
-" status line "
+" Remap the Nerdtree toggle command
+:command Tree NERDTreeToggle
+
+" Install the vim-plug plugin manager
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" Begins Vim plug section
+call plug#begin()
+
+" git branch name
+Plug 'itchyny/vim-gitbranch'
+
+" status line
 Plug 'itchyny/lightline.vim'
-set laststatus=2
-set noshowmode
+
 let g:lightline = {
       \ 'colorscheme': 'wombat',
       \ 'active': {
@@ -19,19 +46,21 @@ let g:lightline = {
       \ },
       \ }
 
-" git branch name
-Plug 'itchyny/vim-gitbranch'
-" NerdTree
-Plug 'scrooloose/nerdtree'
+" Ale - Syntax checker
+Plug 'w0rp/ale'
+
+" Nertree - file tree visualizer
+Plug 'https://github.com/scrooloose/nerdtree.git'
+" Open nerdtree on start and close it if it's the only thing left
 autocmd vimenter * NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
 " git gutter
 Plug 'airblade/vim-gitgutter'
 " icons
 Plug 'ryanoasis/vim-devicons'
-call plug#end()
 
-if !has('gui_running')
-	set t_Co=256
-endif
-set encoding=UTF-8
+call plug#end()
+" Ends Vim plug section
+
+let g:ale_enabled = 1
