@@ -53,6 +53,7 @@ Plug 'w0rp/ale'
 Plug 'https://github.com/scrooloose/nerdtree.git'
 " Open nerdtree on start and close it if it's the only thing left
 autocmd vimenter * NERDTree
+autocmd vimenter * wincmd w
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " git gutter
